@@ -55,8 +55,8 @@ namespace MonkTechWebAPI.Controllers
             return Ok(salaoDto);
         }
 
-        // GET: api/Saloes/5/Agendas
-        [HttpGet("{id}/Agendas")]
+        // GET: api/Saloes/Agendas/5
+        [HttpGet("Agendas/{id}")]
         public async Task<ActionResult<GetSalaoAgendasDto>> GetSalaoAgendas(int id)
         {
             var salao = await _saloesRepository.GetDetailsAndAgendas(id);
@@ -74,7 +74,7 @@ namespace MonkTechWebAPI.Controllers
         // POST: api/Saloes
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Salao>> PostSalao(CreateSalaoDto salaoDto)
+        public async Task<ActionResult<GetSalaoDetailsDto>> PostSalao(CreateSalaoDto salaoDto)
         {
             var salao = _mapper.Map<Salao>(salaoDto);
             var endereco = _mapper.Map<Endereco>(salaoDto);
@@ -84,7 +84,11 @@ namespace MonkTechWebAPI.Controllers
             endereco.SalaoId = salao.Id;
             await _enderecosRepository.AddAsync(endereco);
 
-            return CreatedAtAction("GetSalao", new { id = salao.Id }, salao);
+            var salaoSalvo = await _saloesRepository.GetAsync(salao.Id);
+
+            var salaoDtoOut = _mapper.Map<GetSalaoDetailsDto>(salaoSalvo);
+
+            return CreatedAtAction("GetSalao", new { id = salaoDtoOut.Id }, salaoDtoOut);
         }
 
         // DELETE: api/Saloes/5
