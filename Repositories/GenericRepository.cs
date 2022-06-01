@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MonkTechWebAPI.Configurations;
 using MonkTechWebAPI.Contracts;
-using MonkTechWebAPI.Data;
 
 namespace MonkTechWebAPI.Repositories
 {

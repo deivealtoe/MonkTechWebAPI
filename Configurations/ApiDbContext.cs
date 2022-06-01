@@ -1,10 +1,9 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using MonkTechWebAPI.Configurations;
 using MonkTechWebAPI.Configurations.Seeding;
 using MonkTechWebAPI.Models;
 
-namespace MonkTechWebAPI.Data
+namespace MonkTechWebAPI.Configurations
 {
     public class ApiDbContext : IdentityDbContext<Usuario>
     {
@@ -22,7 +21,7 @@ namespace MonkTechWebAPI.Data
             base.OnModelCreating(builder);
 
             builder.ApplyConfiguration(new RoleConfiguration());
-            
+
             builder.Entity<Agenda>().Property(p => p.Dia).HasColumnType("Date");
             builder.Entity<Salao>().HasIndex(p => p.Cnpj).IsUnique();
 

@@ -1,5 +1,5 @@
-﻿using MonkTechWebAPI.Contracts;
-using MonkTechWebAPI.Data;
+﻿using MonkTechWebAPI.Configurations;
+using MonkTechWebAPI.Contracts;
 using MonkTechWebAPI.Models;
 
 namespace MonkTechWebAPI.Repositories

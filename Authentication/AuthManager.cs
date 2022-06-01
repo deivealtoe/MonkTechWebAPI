@@ -8,7 +8,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace MonkTechWebAPI.Repositories
+namespace MonkTechWebAPI.Authentication
 {
     public class AuthManager : IAuthManager
     {
@@ -18,9 +18,9 @@ namespace MonkTechWebAPI.Repositories
 
         public AuthManager(IMapper mapper, UserManager<Usuario> userManager, IConfiguration configuration)
         {
-            this._mapper = mapper;
-            this._userManager = userManager;
-            this._configuration = configuration;
+            _mapper = mapper;
+            _userManager = userManager;
+            _configuration = configuration;
         }
 
         public async Task<IEnumerable<IdentityError>> Register(UsuarioDto usuarioDto)
