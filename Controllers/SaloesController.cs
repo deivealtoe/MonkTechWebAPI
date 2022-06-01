@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MonkTechWebAPI.Contracts;
-using MonkTechWebAPI.Data;
 using MonkTechWebAPI.Models;
 using MonkTechWebAPI.Models.Dto.Salao;
 
