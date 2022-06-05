@@ -7,5 +7,6 @@ namespace MonkTechWebAPI.Models.Dto.Usuario
         [EmailAddress]
         public string Email { get; set; } = null!;
         public string Password { get; set; } = null!;
+        public int? SalaoId { get; set; }
     }
 }

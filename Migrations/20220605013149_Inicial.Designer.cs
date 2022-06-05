@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace MonkTechWebAPI.Migrations
 {
     [DbContext(typeof(ApiDbContext))]
-    [Migration("20220531191229_Inicial")]
+    [Migration("20220605013149_Inicial")]
     partial class Inicial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -52,15 +52,15 @@ namespace MonkTechWebAPI.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "d6452ecf-946e-4130-ae22-81a1e7d946d8",
-                            ConcurrencyStamp = "41978db2-ad8e-44e3-bf12-dcf6b2d4f11f",
+                            Id = "f3dde8f3-d90d-45c2-b622-2c8c939ccc47",
+                            ConcurrencyStamp = "0c746ce3-c812-4c73-8fd6-705d8cf77280",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
-                            Id = "99b22110-804e-483c-ad93-208341e29e26",
-                            ConcurrencyStamp = "dc5b7d89-8012-436e-9348-e480c157974b",
+                            Id = "fcb7621e-6289-449d-bad3-082cfc8a6153",
+                            ConcurrencyStamp = "a3c295f3-94f3-41ed-b7f0-05468a306245",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -213,7 +213,7 @@ namespace MonkTechWebAPI.Migrations
                         new
                         {
                             Id = 1,
-                            Dia = new DateTime(2022, 5, 31, 0, 0, 0, 0, DateTimeKind.Local),
+                            Dia = new DateTime(2022, 6, 4, 0, 0, 0, 0, DateTimeKind.Local),
                             Disponivel = true,
                             HoraFim = "14:00",
                             HoraInicio = "13:00",
@@ -222,7 +222,7 @@ namespace MonkTechWebAPI.Migrations
                         new
                         {
                             Id = 2,
-                            Dia = new DateTime(2022, 5, 31, 0, 0, 0, 0, DateTimeKind.Local),
+                            Dia = new DateTime(2022, 6, 4, 0, 0, 0, 0, DateTimeKind.Local),
                             Disponivel = true,
                             HoraFim = "12:30",
                             HoraInicio = "11:00",
@@ -231,7 +231,7 @@ namespace MonkTechWebAPI.Migrations
                         new
                         {
                             Id = 3,
-                            Dia = new DateTime(2022, 5, 31, 0, 0, 0, 0, DateTimeKind.Local),
+                            Dia = new DateTime(2022, 6, 4, 0, 0, 0, 0, DateTimeKind.Local),
                             Disponivel = true,
                             HoraFim = "10:00",
                             HoraInicio = "08:20",
@@ -240,7 +240,7 @@ namespace MonkTechWebAPI.Migrations
                         new
                         {
                             Id = 4,
-                            Dia = new DateTime(2022, 5, 31, 0, 0, 0, 0, DateTimeKind.Local),
+                            Dia = new DateTime(2022, 6, 4, 0, 0, 0, 0, DateTimeKind.Local),
                             Disponivel = true,
                             HoraFim = "09:00",
                             HoraInicio = "07:20",
@@ -249,7 +249,7 @@ namespace MonkTechWebAPI.Migrations
                         new
                         {
                             Id = 5,
-                            Dia = new DateTime(2022, 5, 31, 0, 0, 0, 0, DateTimeKind.Local),
+                            Dia = new DateTime(2022, 6, 4, 0, 0, 0, 0, DateTimeKind.Local),
                             Disponivel = true,
                             HoraFim = "10:00",
                             HoraInicio = "08:20",
@@ -258,7 +258,7 @@ namespace MonkTechWebAPI.Migrations
                         new
                         {
                             Id = 6,
-                            Dia = new DateTime(2022, 5, 31, 0, 0, 0, 0, DateTimeKind.Local),
+                            Dia = new DateTime(2022, 6, 4, 0, 0, 0, 0, DateTimeKind.Local),
                             Disponivel = true,
                             HoraFim = "10:00",
                             HoraInicio = "08:20",
@@ -267,7 +267,7 @@ namespace MonkTechWebAPI.Migrations
                         new
                         {
                             Id = 7,
-                            Dia = new DateTime(2022, 5, 31, 0, 0, 0, 0, DateTimeKind.Local),
+                            Dia = new DateTime(2022, 6, 4, 0, 0, 0, 0, DateTimeKind.Local),
                             Disponivel = true,
                             HoraFim = "10:00",
                             HoraInicio = "08:20",
@@ -480,6 +480,9 @@ namespace MonkTechWebAPI.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("boolean");
 
+                    b.Property<int>("SalaoId")
+                        .HasColumnType("integer");
+
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("text");
 
@@ -498,6 +501,9 @@ namespace MonkTechWebAPI.Migrations
                     b.HasIndex("NormalizedUserName")
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex");
+
+                    b.HasIndex("SalaoId")
+                        .IsUnique();
 
                     b.ToTable("AspNetUsers", (string)null);
                 });
@@ -571,11 +577,23 @@ namespace MonkTechWebAPI.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("MonkTechWebAPI.Models.Usuario", b =>
+                {
+                    b.HasOne("MonkTechWebAPI.Models.Salao", null)
+                        .WithOne("Usuario")
+                        .HasForeignKey("MonkTechWebAPI.Models.Usuario", "SalaoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("MonkTechWebAPI.Models.Salao", b =>
                 {
                     b.Navigation("Agendas");
 
                     b.Navigation("Endereco");
+
+                    b.Navigation("Usuario")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

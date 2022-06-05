@@ -25,31 +25,6 @@ namespace MonkTechWebAPI.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "AspNetUsers",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "text", nullable: false),
-                    UserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
-                    NormalizedUserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
-                    Email = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
-                    NormalizedEmail = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
-                    EmailConfirmed = table.Column<bool>(type: "boolean", nullable: false),
-                    PasswordHash = table.Column<string>(type: "text", nullable: true),
-                    SecurityStamp = table.Column<string>(type: "text", nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "text", nullable: true),
-                    PhoneNumber = table.Column<string>(type: "text", nullable: true),
-                    PhoneNumberConfirmed = table.Column<bool>(type: "boolean", nullable: false),
-                    TwoFactorEnabled = table.Column<bool>(type: "boolean", nullable: false),
-                    LockoutEnd = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    LockoutEnabled = table.Column<bool>(type: "boolean", nullable: false),
-                    AccessFailedCount = table.Column<int>(type: "integer", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AspNetUsers", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Saloes",
                 columns: table => new
                 {
@@ -80,6 +55,89 @@ namespace MonkTechWebAPI.Migrations
                         name: "FK_AspNetRoleClaims_AspNetRoles_RoleId",
                         column: x => x.RoleId,
                         principalTable: "AspNetRoles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Agendas",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Dia = table.Column<DateTime>(type: "Date", nullable: false),
+                    HoraInicio = table.Column<string>(type: "text", nullable: false),
+                    HoraFim = table.Column<string>(type: "text", nullable: false),
+                    NomeDoCliente = table.Column<string>(type: "text", nullable: true),
+                    TelefoneDoCliente = table.Column<string>(type: "text", nullable: true),
+                    Disponivel = table.Column<bool>(type: "boolean", nullable: false),
+                    SalaoId = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Agendas", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Agendas_Saloes_SalaoId",
+                        column: x => x.SalaoId,
+                        principalTable: "Saloes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetUsers",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    SalaoId = table.Column<int>(type: "integer", nullable: false),
+                    UserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    NormalizedUserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    Email = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    NormalizedEmail = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    EmailConfirmed = table.Column<bool>(type: "boolean", nullable: false),
+                    PasswordHash = table.Column<string>(type: "text", nullable: true),
+                    SecurityStamp = table.Column<string>(type: "text", nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "text", nullable: true),
+                    PhoneNumber = table.Column<string>(type: "text", nullable: true),
+                    PhoneNumberConfirmed = table.Column<bool>(type: "boolean", nullable: false),
+                    TwoFactorEnabled = table.Column<bool>(type: "boolean", nullable: false),
+                    LockoutEnd = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
+                    LockoutEnabled = table.Column<bool>(type: "boolean", nullable: false),
+                    AccessFailedCount = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AspNetUsers_Saloes_SalaoId",
+                        column: x => x.SalaoId,
+                        principalTable: "Saloes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Enderecos",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Pais = table.Column<string>(type: "text", nullable: true),
+                    Estado = table.Column<string>(type: "text", nullable: false),
+                    Cidade = table.Column<string>(type: "text", nullable: false),
+                    Bairro = table.Column<string>(type: "text", nullable: false),
+                    Rua = table.Column<string>(type: "text", nullable: false),
+                    Numero = table.Column<string>(type: "text", nullable: true),
+                    Cep = table.Column<string>(type: "text", nullable: false),
+                    SalaoId = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Enderecos", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Enderecos_Saloes_SalaoId",
+                        column: x => x.SalaoId,
+                        principalTable: "Saloes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -169,64 +227,13 @@ namespace MonkTechWebAPI.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "Agendas",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Dia = table.Column<DateTime>(type: "Date", nullable: false),
-                    HoraInicio = table.Column<string>(type: "text", nullable: false),
-                    HoraFim = table.Column<string>(type: "text", nullable: false),
-                    NomeDoCliente = table.Column<string>(type: "text", nullable: true),
-                    TelefoneDoCliente = table.Column<string>(type: "text", nullable: true),
-                    Disponivel = table.Column<bool>(type: "boolean", nullable: false),
-                    SalaoId = table.Column<int>(type: "integer", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Agendas", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Agendas_Saloes_SalaoId",
-                        column: x => x.SalaoId,
-                        principalTable: "Saloes",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Enderecos",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Pais = table.Column<string>(type: "text", nullable: true),
-                    Estado = table.Column<string>(type: "text", nullable: false),
-                    Cidade = table.Column<string>(type: "text", nullable: false),
-                    Bairro = table.Column<string>(type: "text", nullable: false),
-                    Rua = table.Column<string>(type: "text", nullable: false),
-                    Numero = table.Column<string>(type: "text", nullable: true),
-                    Cep = table.Column<string>(type: "text", nullable: false),
-                    SalaoId = table.Column<int>(type: "integer", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Enderecos", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Enderecos_Saloes_SalaoId",
-                        column: x => x.SalaoId,
-                        principalTable: "Saloes",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "99b22110-804e-483c-ad93-208341e29e26", "dc5b7d89-8012-436e-9348-e480c157974b", "User", "USER" },
-                    { "d6452ecf-946e-4130-ae22-81a1e7d946d8", "41978db2-ad8e-44e3-bf12-dcf6b2d4f11f", "Administrator", "ADMINISTRATOR" }
+                    { "f3dde8f3-d90d-45c2-b622-2c8c939ccc47", "0c746ce3-c812-4c73-8fd6-705d8cf77280", "Administrator", "ADMINISTRATOR" },
+                    { "fcb7621e-6289-449d-bad3-082cfc8a6153", "a3c295f3-94f3-41ed-b7f0-05468a306245", "User", "USER" }
                 });
 
             migrationBuilder.InsertData(
@@ -246,13 +253,13 @@ namespace MonkTechWebAPI.Migrations
                 columns: new[] { "Id", "Dia", "Disponivel", "HoraFim", "HoraInicio", "NomeDoCliente", "SalaoId", "TelefoneDoCliente" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2022, 5, 31, 0, 0, 0, 0, DateTimeKind.Local), true, "14:00", "13:00", null, 1, null },
-                    { 2, new DateTime(2022, 5, 31, 0, 0, 0, 0, DateTimeKind.Local), true, "12:30", "11:00", null, 1, null },
-                    { 3, new DateTime(2022, 5, 31, 0, 0, 0, 0, DateTimeKind.Local), true, "10:00", "08:20", null, 2, null },
-                    { 4, new DateTime(2022, 5, 31, 0, 0, 0, 0, DateTimeKind.Local), true, "09:00", "07:20", null, 2, null },
-                    { 5, new DateTime(2022, 5, 31, 0, 0, 0, 0, DateTimeKind.Local), true, "10:00", "08:20", null, 3, null },
-                    { 6, new DateTime(2022, 5, 31, 0, 0, 0, 0, DateTimeKind.Local), true, "10:00", "08:20", null, 4, null },
-                    { 7, new DateTime(2022, 5, 31, 0, 0, 0, 0, DateTimeKind.Local), true, "10:00", "08:20", null, 5, null }
+                    { 1, new DateTime(2022, 6, 4, 0, 0, 0, 0, DateTimeKind.Local), true, "14:00", "13:00", null, 1, null },
+                    { 2, new DateTime(2022, 6, 4, 0, 0, 0, 0, DateTimeKind.Local), true, "12:30", "11:00", null, 1, null },
+                    { 3, new DateTime(2022, 6, 4, 0, 0, 0, 0, DateTimeKind.Local), true, "10:00", "08:20", null, 2, null },
+                    { 4, new DateTime(2022, 6, 4, 0, 0, 0, 0, DateTimeKind.Local), true, "09:00", "07:20", null, 2, null },
+                    { 5, new DateTime(2022, 6, 4, 0, 0, 0, 0, DateTimeKind.Local), true, "10:00", "08:20", null, 3, null },
+                    { 6, new DateTime(2022, 6, 4, 0, 0, 0, 0, DateTimeKind.Local), true, "10:00", "08:20", null, 4, null },
+                    { 7, new DateTime(2022, 6, 4, 0, 0, 0, 0, DateTimeKind.Local), true, "10:00", "08:20", null, 5, null }
                 });
 
             migrationBuilder.InsertData(
@@ -302,6 +309,12 @@ namespace MonkTechWebAPI.Migrations
                 name: "EmailIndex",
                 table: "AspNetUsers",
                 column: "NormalizedEmail");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AspNetUsers_SalaoId",
+                table: "AspNetUsers",
+                column: "SalaoId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "UserNameIndex",

@@ -24,6 +24,8 @@ namespace MonkTechWebAPI.Configurations
             CreateMap<Agenda, GetAgendaDetailsDto>().ReverseMap();
 
             CreateMap<Usuario, UsuarioDto>().ReverseMap();
+            CreateMap<Usuario, CreateSalaoDto>().ReverseMap();
+            CreateMap<UsuarioDto, CreateSalaoDto>().ReverseMap();
         }
     }
 }

@@ -7,5 +7,6 @@
         public string RazaoSocial { get; set; } = null!;
         public Endereco? Endereco { get; set; }
         public List<Agenda>? Agendas { get; set; }
+        public Usuario Usuario { get; set; } = null!;
     }
 }

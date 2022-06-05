@@ -11,5 +11,7 @@
         public string Rua { get; set; } = null!;
         public string? Numero { get; set; }
         public string Cep { get; set; } = null!;
+        public string Email { get; set; } = null!;
+        public string Password { get; set; } = null!;
     }
 }

@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MonkTechWebAPI.Contracts;
 using MonkTechWebAPI.Models;
 using MonkTechWebAPI.Models.Dto.Salao;
+using MonkTechWebAPI.Models.Dto.Usuario;
 
 namespace MonkTechWebAPI.Controllers
 {
@@ -19,12 +21,14 @@ namespace MonkTechWebAPI.Controllers
         private readonly IMapper _mapper;
         private readonly ISaloesRepository _saloesRepository;
         private readonly IEnderecosRepository _enderecosRepository;
+        private readonly IAuthManager _authManager;
 
-        public SaloesController(IMapper mapper, ISaloesRepository saloesRepository, IEnderecosRepository enderecosRepository)
+        public SaloesController(IMapper mapper, ISaloesRepository saloesRepository, IEnderecosRepository enderecosRepository, IAuthManager authManager)
         {
             this._mapper = mapper;
             this._saloesRepository = saloesRepository;
             this._enderecosRepository = enderecosRepository;
+            this._authManager = authManager;
         }
 
         // GET: api/Saloes
@@ -77,8 +81,24 @@ namespace MonkTechWebAPI.Controllers
         {
             var salao = _mapper.Map<Salao>(salaoDto);
             var endereco = _mapper.Map<Endereco>(salaoDto);
+            var usuarioDto = _mapper.Map<UsuarioDto>(salaoDto);
 
             await _saloesRepository.AddAsync(salao);
+
+            usuarioDto.SalaoId = salao.Id;
+            var errors = await _authManager.Register(usuarioDto);
+            
+            if (errors.Any())
+            {
+                await _saloesRepository.DeleteAsync(salao.Id);
+
+                foreach (var error in errors)
+                {
+                    ModelState.AddModelError(error.Code, error.Description);
+                }
+
+                return BadRequest(ModelState);
+            }
 
             endereco.SalaoId = salao.Id;
             await _enderecosRepository.AddAsync(endereco);
@@ -92,6 +112,7 @@ namespace MonkTechWebAPI.Controllers
 
         // DELETE: api/Saloes/5
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<IActionResult> DeleteSalao(int id)
         {   
             if (await _saloesRepository.Exists(id))

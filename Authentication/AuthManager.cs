@@ -30,7 +30,12 @@ namespace MonkTechWebAPI.Authentication
 
             var resultado = await _userManager.CreateAsync(usuario, usuarioDto.Password);
 
-            throw new NotImplementedException();
+            if (resultado.Succeeded)
+            {
+                await _userManager.AddToRoleAsync(usuario, "User");
+            }
+
+            return resultado.Errors;
         }
 
         public async Task<AuthResponseDto> Login(UsuarioLoginDto usuarioLoginDto)

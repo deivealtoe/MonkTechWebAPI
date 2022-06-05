@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -94,6 +95,7 @@ namespace MonkTechWebAPI.Controllers
         // POST: api/Agendas
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult<GetAgendaDto>> PostAgenda(CreateAgendaDto createAgendaDto)
         {
             var agenda = _mapper.Map<Agenda>(createAgendaDto);
@@ -107,6 +109,7 @@ namespace MonkTechWebAPI.Controllers
 
         // DELETE: api/Agendas/5
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<IActionResult> DeleteAgenda(int id)
         {
             var agenda = await _agendasRepository.GetAsync(id);
