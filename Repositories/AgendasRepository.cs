@@ -20,6 +20,11 @@ namespace MonkTechWebAPI.Repositories
             return await _dbContext.Agendas.Where(w => w.SalaoId == idDoSalao).ToListAsync();
         }
 
+        public async Task<List<Agenda>> GetAgendasDisponiveisDeUmSalao(int idDoSalao)
+        {
+            return await _dbContext.Agendas.Where(w => w.SalaoId == idDoSalao && w.Disponivel == true).ToListAsync();
+        }
+
         public async Task<Agenda> MarcarAgenda(int idDaAgenda, PutAgendaDto putAgendadto)
         {
             var agenda = await _dbContext.Agendas.FindAsync(idDaAgenda);

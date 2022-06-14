@@ -6,6 +6,7 @@ namespace MonkTechWebAPI.Contracts
     public interface IAgendasRepository : IGenericRepository<Agenda>
     {
         Task<List<Agenda>> GetAgendasDeUmSalao(int idDoSalao);
+        Task<List<Agenda>> GetAgendasDisponiveisDeUmSalao(int idDoSalao);
         Task<Agenda> MarcarAgenda(int idDaAgenda, PutAgendaDto putAgendaDto);
     }
 }

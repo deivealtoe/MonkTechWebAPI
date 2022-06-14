@@ -69,6 +69,22 @@ namespace MonkTechWebAPI.Controllers
             return Ok(agendaDto);
         }
 
+        // GET: api/Agendas/Saloes/4
+        [HttpGet("Saloes/Disponiveis/{idDoSalao}")]
+        public async Task<ActionResult<GetAgendaDetailsDto>> GetAgendasDisponiveisDeUmSalao(int idDoSalao)
+        {
+            var agenda = await _agendasRepository.GetAgendasDisponiveisDeUmSalao(idDoSalao);
+
+            if (agenda == null)
+            {
+                return NotFound();
+            }
+
+            var agendaDto = _mapper.Map<List<GetAgendaDetailsDto>>(agenda);
+
+            return Ok(agendaDto);
+        }
+
         // PUT: /api/Agendas/Agendar/5
         [HttpPut("Agendar/{idDaAgenda}")]
         public async Task<ActionResult<GetAgendaDto>> MarcarAgenda(int idDaAgenda, PutAgendaDto putAgendaDto)
