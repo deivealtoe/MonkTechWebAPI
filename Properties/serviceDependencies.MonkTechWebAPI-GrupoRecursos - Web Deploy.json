@@ -1,0 +1,15 @@
+{
+  "dependencies": {
+    "mssql1": {
+      "secretStore": "AzureAppSettings",
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourcegroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/monktechwebapi-novo-grupodbserver/databases/MonkTechWebAPI_db-novo-grupo",
+      "type": "mssql.azure",
+      "connectionId": "ConnectionStrings:MeuPostgresql",
+      "dynamicId": null
+    },
+    "postgresql1": {
+      "ignored": "True",
+      "type": "postgresql"
+    }
+  }
+}

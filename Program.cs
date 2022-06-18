@@ -57,7 +57,7 @@ builder.Services.AddAuthentication(options =>
 
 builder.Services.AddDbContext<ApiDbContext>(options =>
 {
-    options.UseSqlServer("name=MeuSqlServer");
+    options.UseNpgsql("name=MeuPostgresql");
 });
 
 var app = builder.Build();

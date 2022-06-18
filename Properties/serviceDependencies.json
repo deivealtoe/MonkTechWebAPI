@@ -1,5 +1,9 @@
 {
   "dependencies": {
+    "postgresql1": {
+      "ignored": "true",
+      "type": "postgresql"
+    },
     "mssql1": {
       "type": "mssql",
       "connectionId": "ConnectionStrings:MeuPostgresql",
